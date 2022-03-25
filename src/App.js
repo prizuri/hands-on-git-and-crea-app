@@ -1,10 +1,14 @@
 import './App.css';
-import Giphy from './pages/home';
+import gif from './components/gif/data';
+import Gif from './components/gif';
+import Form from './components/form';
 
 function App() {
   return (
     <div className="App">
-      <Giphy/>
+      <h1>{gif.title}</h1>
+      <Form/>
+      <Gif url={gif.url}/>
     </div>
   );
 }
