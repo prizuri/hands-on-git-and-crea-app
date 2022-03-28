@@ -1,14 +1,17 @@
 import './App.css';
-import gif from './components/gif/data';
-import Gif from './components/gif';
 import Form from './components/form';
+import data from './data/data';
+import Gif from './components/gif';
 
 function App() {
+  const filteredData = data.filter((value=> value.rating!=="g"))
+  const getData = filteredData.map(data=>{
+    return <Gif key={data.id} url={data.url} title={data.title}/>
+  })
   return (
     <div className="App">
-      <h1>{gif.title}</h1>
-      <Form/>
-      <Gif url={gif.url}/>
+      <Form />
+      {getData}
     </div>
   );
 }
