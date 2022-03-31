@@ -5,17 +5,15 @@ import axios from "axios"
 function App() {
   const [query, setQuery] = React.useState("")
   const [dataGif, setDataGif] = React.useState([])
-  console.log("Rendering")
 
   //Use effect will run in every changes query
   React.useEffect(()=>{
-    console.log("Use effect")
     fetchingDataGif()
   }, [query])
-  const key=process.env.local.REACT_APP_GIPHY_KEY
 
   //Fetching API with axios and save the changes to setDataGif
   function fetchingDataGif(){
+    const key=process.env.REACT_APP_GIPHY_KEY
     axios.get(`https://api.giphy.com/v1/gifs/search?&api_key=${key}&q=${query}&limit=12`)
       .then(response => {
         setDataGif(response.data.data)
@@ -34,7 +32,7 @@ function App() {
         <button>Submit</button>
       </form>
       
-      {dataGif.map(data=>{
+      {dataGif.length!==0 && dataGif.map(data=>{
         return (<img key={data.id} src={data.images.fixed_width.url}/>)
         
       })}
