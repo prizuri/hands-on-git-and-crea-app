@@ -12,10 +12,11 @@ function App() {
     console.log("Use effect")
     fetchingDataGif()
   }, [query])
+  const key=process.env.local.REACT_APP_GIPHY_KEY
 
   //Fetching API with axios and save the changes to setDataGif
   function fetchingDataGif(){
-    axios.get(`https://api.giphy.com/v1/gifs/search?&api_key=u9n8dbJfa0HMqK4KaEwaL9pxkbzfUTBY&q=${query}&limit=12`)
+    axios.get(`https://api.giphy.com/v1/gifs/search?&api_key=${key}&q=${query}&limit=12`)
       .then(response => {
         setDataGif(response.data.data)
       })
