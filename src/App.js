@@ -23,14 +23,19 @@ function App() {
     setQuery(event.target.value)
   }
 
+  function handleSubmit(event){
+    event.preventDefault()
+  }
+
+  //It runs everytime the query in input changed
   React.useEffect(() => {
     fetchingAPI()
   }, [query])
 
   return (
     <div className="App">
-      <form>
-        <input type="text" onChange={handleInput} />
+      <form onSubmit={handleSubmit}>
+        <input type="text" onChange={handleInput} value={query}/>
         <button onClick={e => e.preventDefault}>Search</button>
       </form>
       {dataGif.length !== 0 && dataGif.map(data => {
