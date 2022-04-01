@@ -1,17 +1,46 @@
 import './App.css';
-import Form from './components/form';
-import data from './data/data';
-import Gif from './components/gif';
+import React from "react"
+import axios from "axios"
 
 function App() {
-  const filteredData = data.filter((value=> value.rating!=="g"))
-  const getData = filteredData.map(data=>{
-    return <Gif key={data.id} url={data.url} title={data.title}/>
-  })
+  const [dataGif, setDataGif] = React.useState([])
+  const [query, setQuery] = React.useState("")
+
+  //fetching API and set the gif data
+  function fetchingAPI() {
+    const key = process.env.REACT_APP_GIPHY_KEY
+    const limit = 12
+    const baseURL = `https://api.giphy.com/v1/gifs/search?&api_key=${key}&q=${query}&limit=${limit}`
+    axios.get(baseURL)
+      .then(response => {
+        setDataGif(response.data.data)
+      })
+      .catch(error => alert(error))
+  }
+
+  //when the input change, the query will be set
+  function handleInput(event) {
+    setQuery(event.target.value)
+  }
+
+  React.useEffect(() => {
+    fetchingAPI()
+  }, [query])
+
   return (
     <div className="App">
-      <Form />
-      {getData}
+      <form>
+        <input type="text" onChange={handleInput} />
+        <button onClick={e => e.preventDefault}>Search</button>
+      </form>
+      {dataGif.length !== 0 && dataGif.map(data => {
+        return (
+          <div key={data.id}>
+            <h2>{data.title}</h2>
+            <img src={data.images.fixed_width.url} alt={data.title} />
+          </div>
+        )
+      })}
     </div>
   );
 }
